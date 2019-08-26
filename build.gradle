@@ -1,0 +1,47 @@
+buildscript {
+    ext.buildConfig = [
+            compileSdk  : 29,
+            targetSdk   : 29,
+            minSdk      : 14,
+            buildTools  : '29.0.2',
+            gradlePlugin: '3.5.0'
+    ]
+    ext.versions = [
+            appcompat: '1.1.0-rc01',
+            migbase64: '2.2',
+            gson     : '2.8.5',
+            okHttp   : '3.12.3',
+            rxJava   : '2.2.11',
+            rxAndroid: '2.1.1',
+    ]
+    ext.deps = [
+
+            'appcompat': "androidx.appcompat:appcompat:${versions.appcompat}",
+            'migbase64': "com.brsanthu:migbase64:${versions.migbase64}",
+            'gson'     : "com.google.code.gson:gson:${versions.gson}",
+            'okHttp'   : "com.squareup.okhttp3:okhttp:${versions.okHttp}",
+            'rxJava'   : "io.reactivex.rxjava2:rxjava:${versions.rxJava}",
+            'rxAndroid': "io.reactivex.rxjava2:rxandroid:${versions.rxAndroid}"
+    ]
+
+    repositories {
+        google()
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

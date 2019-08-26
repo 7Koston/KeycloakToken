@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
+
+    defaultConfig {
+        applicationId "com.github.koston.keycloaktoken.demo"
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+        }
+        debug {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+        }
+    }
+}
+
+dependencies {
+    implementation project(':lib')
+    implementation deps.appcompat
+}
