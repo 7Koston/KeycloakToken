@@ -3,7 +3,10 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="com.github.koston.keycloaktoken.demo">
 
+  <uses-permission android:name="android.permission.INTERNET" />
+
   <application
+    android:name=".App"
     android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
@@ -11,11 +14,20 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning">
-    <activity android:name=".MainActivity">
+    <activity
+      android:name=".MainActivity"
+      android:launchMode="singleTask">
       <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
         <action android:name="android.intent.action.MAIN" />
 
         <category android:name="android.intent.category.LAUNCHER" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data
+          android:host="android.novel.tl"
+          android:scheme="app" />
       </intent-filter>
     </activity>
   </application>

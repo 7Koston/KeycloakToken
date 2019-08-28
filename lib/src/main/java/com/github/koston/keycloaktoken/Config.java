@@ -5,16 +5,61 @@ import androidx.annotation.NonNull;
 public final class Config {
 
   @NonNull
-  public static final String clientId = "site";
-  @NonNull
-  public static final String baseUrl = "https://auth.novel.tl/auth/realms/site/protocol/openid-connect";
-  @NonNull
-  public static final String authenticationCodeUrl = "https://auth.novel.tl/auth/realms/site/protocol/openid-connect/auth";
-  @NonNull
-  public static final String redirectUri = "test://urlmobile.com";
+  private String clientId;
 
-  private Config() {
+  @NonNull
+  private String baseUrl;
+
+  @NonNull
+  private String authenticationCodeUrl;
+
+  @NonNull
+  private String redirectUri;
+
+  public Config(
+      @NonNull String clientId,
+      @NonNull String baseUrl,
+      @NonNull String authenticationCodeUrl,
+      @NonNull String redirectUri) {
+    this.clientId = clientId;
+    this.baseUrl = baseUrl;
+    this.authenticationCodeUrl = authenticationCodeUrl;
+    this.redirectUri = redirectUri;
   }
 
+  @NonNull
+  public String getClientId() {
+    return clientId;
+  }
 
+  public void setClientId(@NonNull String clientId) {
+    this.clientId = clientId;
+  }
+
+  @NonNull
+  public String getBaseUrl() {
+    return baseUrl;
+  }
+
+  public void setBaseUrl(@NonNull String baseUrl) {
+    this.baseUrl = baseUrl;
+  }
+
+  @NonNull
+  public String getAuthenticationCodeUrl() {
+    return authenticationCodeUrl;
+  }
+
+  public void setAuthenticationCodeUrl(@NonNull String authenticationCodeUrl) {
+    this.authenticationCodeUrl = authenticationCodeUrl;
+  }
+
+  @NonNull
+  public String getRedirectUri() {
+    return redirectUri;
+  }
+
+  public void setRedirectUri(@NonNull String redirectUri) {
+    this.redirectUri = redirectUri;
+  }
 }

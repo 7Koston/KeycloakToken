@@ -34,9 +34,9 @@ public final class Helper {
     return true;
   }
 
-  @SuppressLint({"SimpleDateFormat"})
   @NonNull
   public final String formatDate(@NonNull Calendar formatDate) {
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     return formatter.format(formatDate.getTime());
   }

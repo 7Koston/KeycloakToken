@@ -36,4 +36,6 @@ android {
 dependencies {
     implementation project(':lib')
     implementation deps.appcompat
+    implementation deps.okHttp
+    implementation "com.squareup.okhttp3:logging-interceptor:${versions.okHttp}"
 }
