@@ -1,6 +1,8 @@
 package com.github.koston.keycloaktoken.demo;
 
 import android.app.Application;
+import com.github.koston.keycloaktoken.demo.singltones.OkHttpModule;
+import com.github.koston.keycloaktoken.demo.singltones.SharedPreferencesModule;
 
 public class App extends Application {
 
@@ -9,6 +11,6 @@ public class App extends Application {
     super.onCreate();
 
     OkHttpModule.initialize();
-    SettingsModule.initialize(getApplicationContext());
+    SharedPreferencesModule.initialize(getApplicationContext());
   }
 }

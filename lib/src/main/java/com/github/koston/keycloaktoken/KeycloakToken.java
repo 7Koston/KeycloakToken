@@ -1,7 +1,7 @@
 package com.github.koston.keycloaktoken;
 
-import androidx.annotation.Nullable;
 import com.google.gson.annotations.SerializedName;
+import io.reactivex.annotations.Nullable;
 import java.util.Calendar;
 
 public final class KeycloakToken {

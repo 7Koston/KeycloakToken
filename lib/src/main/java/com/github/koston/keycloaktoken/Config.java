@@ -1,6 +1,6 @@
 package com.github.koston.keycloaktoken;
 
-import androidx.annotation.NonNull;
+import io.reactivex.annotations.NonNull;
 
 public final class Config {
 

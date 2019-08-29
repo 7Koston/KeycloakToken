@@ -1,4 +1,4 @@
-package com.github.koston.keycloaktoken;
+package com.github.koston.keycloaktoken.demo.utils;
 
 import androidx.annotation.Nullable;
 

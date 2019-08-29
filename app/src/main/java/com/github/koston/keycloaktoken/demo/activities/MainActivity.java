@@ -1,4 +1,4 @@
-package com.github.koston.keycloaktoken.demo;
+package com.github.koston.keycloaktoken.demo.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,13 +15,25 @@ import com.github.koston.keycloaktoken.KeycloakToken;
 import com.github.koston.keycloaktoken.KeycloakTokenExchanger;
 import com.github.koston.keycloaktoken.KeycloakTokenRefreshListener;
 import com.github.koston.keycloaktoken.KeycloakTokenRefresher;
+import com.github.koston.keycloaktoken.demo.R;
+import com.github.koston.keycloaktoken.demo.singltones.OkHttpModule;
+import com.github.koston.keycloaktoken.demo.singltones.SharedPreferencesModule;
+import com.github.koston.keycloaktoken.demo.utils.Helper;
+import com.github.koston.keycloaktoken.demo.utils.Principal;
 
 public class MainActivity extends AppCompatActivity
     implements KeycloakLoginListener, KeycloakLogoutListener, KeycloakTokenRefreshListener {
 
-  private TextView tvResult;
+  private TextView tvToken;
+  private TextView tvUserId;
+  private TextView tvEmail;
+  private TextView tvName;
+  private TextView tvRoles;
+  private TextView tvRefreshDates;
+  private TextView tvAccessDates;
 
   private KeycloakTokenExchanger tokenExchanger;
+  private KeycloakTokenRefresher tokenRefresher;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +47,7 @@ public class MainActivity extends AppCompatActivity
             "https://auth.novel.tl/auth/realms/site/protocol/openid-connect/auth",
             "app://android.novel.tl");
 
-    KeycloakTokenRefresher tokenRefresher = new KeycloakTokenRefresher(
-        OkHttpModule.getApolloHttpClient(), config, this);
-    tokenRefresher.refreshAccessToken(SettingsModule.get().getRefreshToken());
+    tokenRefresher = new KeycloakTokenRefresher(OkHttpModule.getApolloHttpClient(), config, this);
 
     tokenExchanger =
         new KeycloakTokenExchanger(OkHttpModule.getApolloHttpClient(), config, this, this);
@@ -72,61 +82,102 @@ public class MainActivity extends AppCompatActivity
   private void initViews() {
     Button bLogin = findViewById(R.id.bLogin);
     Button bLogout = findViewById(R.id.bLogout);
-    tvResult = findViewById(R.id.tvResult);
+    Button bRefresh = findViewById(R.id.bRefresh);
+    tvToken = findViewById(R.id.tvToken);
+    tvUserId = findViewById(R.id.tvUserId);
+    tvEmail = findViewById(R.id.tvEmail);
+    tvName = findViewById(R.id.tvName);
+    tvRoles = findViewById(R.id.tvRoles);
+    tvRefreshDates = findViewById(R.id.tvRefreshDates);
+    tvAccessDates = findViewById(R.id.tvAccessDates);
 
     bLogin.setOnClickListener(view -> tokenExchanger.openBrowserForLogin(getApplicationContext()));
-
+    bRefresh.setOnClickListener(
+        view -> tokenRefresher.refreshAccessToken(SharedPreferencesModule.get().getRefreshToken()));
     bLogout.setOnClickListener(
-        view -> tokenExchanger.logout(SettingsModule.get().getRefreshToken()));
+        view -> tokenExchanger.logout(SharedPreferencesModule.get().getRefreshToken()));
 
-    tvResult.setText(SettingsModule.get().getAccessToken());
+    tvToken.setText(SharedPreferencesModule.get().getAccessToken());
+  }
+
+  private void showInfo(KeycloakToken token) {
+    String access = token.getAccessToken();
+    Helper helper = new Helper();
+    Principal principal = helper.parseJwtToken(access);
+
+    tvToken.setText(access);
+    tvUserId.setText(principal.getUserId());
+    tvEmail.setText(principal.getEmail());
+    tvName.setText(principal.getName());
+    tvRoles.setText(principal.getRoles());
+    tvRefreshDates.setText(helper.formatDate(token.getTokenExpirationDate()));
+    tvAccessDates.setText(helper.formatDate(token.getRefreshTokenExpirationDate()));
+  }
+
+  private void clearInfo() {
+    String empty = "";
+    tvToken.setText(empty);
+    tvUserId.setText(empty);
+    tvEmail.setText(empty);
+    tvName.setText(empty);
+    tvRoles.setText(empty);
+    tvRefreshDates.setText(empty);
+    tvAccessDates.setText(empty);
   }
 
   @SuppressLint("SetTextI18n")
   @Override
   public void OnLoggedIn(KeycloakToken token) {
-    SettingsModule.get().setAccessToken(token.getAccessToken());
-    SettingsModule.get().setRefreshTOken(token.getRefreshToken());
-
-    tvResult.setText(token.getIdToken() + "\n" + token.getAccessToken());
+    SharedPreferencesModule.get().setAccessToken(token.getAccessToken());
+    SharedPreferencesModule.get().setRefreshTOken(token.getRefreshToken());
 
     Toast.makeText(getApplicationContext(), "LOGGED IN", Toast.LENGTH_SHORT).show();
+
+    showInfo(token);
   }
 
   @Override
   public void OnLoginError() {
     Toast.makeText(getApplicationContext(), "LOGIN ERROR", Toast.LENGTH_SHORT).show();
     Log.e("OnLoginError", "LOGIN ERROR");
+
+    clearInfo();
   }
 
   @Override
   public void OnLoggedOut() {
-    SettingsModule.get().setAccessToken("");
-    SettingsModule.get().setRefreshTOken("");
+    SharedPreferencesModule.get().setAccessToken("");
+    SharedPreferencesModule.get().setRefreshTOken("");
 
     Toast.makeText(getApplicationContext(), "LOGGED OUT", Toast.LENGTH_SHORT).show();
+
+    clearInfo();
   }
 
   @Override
   public void OnLogoutError() {
     Toast.makeText(getApplicationContext(), "LOGOUT ERROR", Toast.LENGTH_SHORT).show();
     Log.e("OnLogoutError", "LOGOUT ERROR");
+
+    clearInfo();
   }
 
   @SuppressLint("SetTextI18n")
   @Override
   public void OnTokenRefreshed(KeycloakToken token) {
-    SettingsModule.get().setAccessToken(token.getAccessToken());
-    SettingsModule.get().setRefreshTOken(token.getRefreshToken());
-
-    tvResult.setText(token.getIdToken() + "\n" + token.getAccessToken());
+    SharedPreferencesModule.get().setAccessToken(token.getAccessToken());
+    SharedPreferencesModule.get().setRefreshTOken(token.getRefreshToken());
 
     Toast.makeText(getApplicationContext(), "TOKEN REFRESHED", Toast.LENGTH_SHORT).show();
+
+    showInfo(token);
   }
 
   @Override
   public void OnTokenRefreshError() {
     Toast.makeText(getApplicationContext(), "LOGOUT ERROR", Toast.LENGTH_SHORT).show();
     Log.e("OnLogoutError", "LOGOUT ERROR");
+
+    clearInfo();
   }
 }

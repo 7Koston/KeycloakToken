@@ -1,26 +1,26 @@
-package com.github.koston.keycloaktoken.demo;
+package com.github.koston.keycloaktoken.demo.singltones;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-public class SettingsModule {
+public class SharedPreferencesModule {
 
-  private static SettingsModule mInstance;
+  private static SharedPreferencesModule mInstance;
 
   private final SharedPreferences mPreferences;
 
-  private SettingsModule(Context context) {
+  private SharedPreferencesModule(Context context) {
     mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
   }
 
   public static void initialize(Context context) {
     if (mInstance == null) {
-      mInstance = new SettingsModule(context);
+      mInstance = new SharedPreferencesModule(context);
     }
   }
 
-  public static SettingsModule get() {
+  public static SharedPreferencesModule get() {
     return mInstance;
   }
 

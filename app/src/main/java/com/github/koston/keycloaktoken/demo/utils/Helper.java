@@ -1,13 +1,14 @@
-package com.github.koston.keycloaktoken;
+package com.github.koston.keycloaktoken.demo.utils;
 
 import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.github.koston.keycloaktoken.KeycloakToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.migcomponents.migbase64.Base64;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 
 public final class Helper {
@@ -47,10 +48,10 @@ public final class Helper {
       return new Principal(null, null, null, null, null);
     }
 
-    String[] base64 = jwtToken.split(".");
+    String[] base64 = jwtToken.split("\\.");
     String base64EncodedBody = base64[1];
 
-    String body = Arrays.toString(Base64.decodeFast(base64EncodedBody));
+    String body = new String(Base64.decodeFast(base64EncodedBody), Charset.forName("UTF-8"));
     JsonObject jsonBody = new Gson().fromJson(body, JsonObject.class);
 
     String userId = jsonBody.get("sub").getAsString();
@@ -58,7 +59,7 @@ public final class Helper {
     String name = jsonBody.get("given_name").getAsString();
     String surname = jsonBody.get("family_name").getAsString();
     String roles =
-        jsonBody.get("realm_access").getAsJsonObject().getAsJsonArray("roles").getAsString();
+        jsonBody.get("realm_access").getAsJsonObject().getAsJsonArray("roles").toString();
 
     return new Principal(userId, email, name, surname, roles);
   }

@@ -1,4 +1,4 @@
-package com.github.koston.keycloaktoken.demo;
+package com.github.koston.keycloaktoken.demo.singltones;
 
 import java.util.Arrays;
 import okhttp3.OkHttpClient;
@@ -29,7 +29,6 @@ public class OkHttpModule {
                           .addHeader("Content-Type", "application/x-www-form-urlencoded")
                           .header("Cache-Control", "no-cache, no-store, must-revalidate")
                           .build();
-
                   return chain.proceed(request);
                 })
             .hostnameVerifier((hostname, session) -> true);
