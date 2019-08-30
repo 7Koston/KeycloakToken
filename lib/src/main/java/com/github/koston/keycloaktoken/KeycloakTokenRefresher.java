@@ -19,8 +19,6 @@ package com.github.koston.keycloaktoken;
 import com.google.gson.Gson;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import java.util.Calendar;
@@ -29,37 +27,24 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
 
-public class KeycloakTokenRefresher {
-
-  private CompositeDisposable compositeDisposable;
+public class KeycloakTokenRefresher extends DisposableContainer {
 
   private OkHttpClient okHttpClient;
   private KeycloakTokenRefreshListener tokenRefreshListener;
 
-  private Config config;
+  private final Config config;
 
   public KeycloakTokenRefresher(
       OkHttpClient client, Config config, KeycloakTokenRefreshListener refreshListener) {
     this.config = config;
     okHttpClient = client;
     tokenRefreshListener = refreshListener;
-    compositeDisposable = new CompositeDisposable();
   }
 
-  private void addSubscription(Disposable subscription) {
-    compositeDisposable.add(subscription);
-  }
-
-  private void disposeAll() {
-    if (!compositeDisposable.isDisposed()) {
-      compositeDisposable.clear();
-    }
-  }
-
+  @Override
   public void onDestroy() {
+    super.onDestroy();
     okHttpClient = null;
-    disposeAll();
-    compositeDisposable = null;
     tokenRefreshListener = null;
   }
 

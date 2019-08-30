@@ -75,7 +75,9 @@ public class MainActivity extends AppCompatActivity
   protected void onDestroy() {
     super.onDestroy();
     tokenExchanger.onDestroy();
+    tokenRefresher.onDestroy();
     tokenExchanger = null;
+    tokenRefresher = null;
   }
 
   @Override
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity
 
   @SuppressLint("SetTextI18n")
   @Override
-  public void OnLoggedIn(KeycloakToken token) {
+  public void onLoggedIn(KeycloakToken token) {
     SharedPreferencesModule.get().setAccessToken(token.getAccessToken());
     SharedPreferencesModule.get().setRefreshTOken(token.getRefreshToken());
 
@@ -153,15 +155,15 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void OnLoginError() {
+  public void onLoginError() {
     Toast.makeText(getApplicationContext(), "LOGIN ERROR", Toast.LENGTH_SHORT).show();
-    Log.e("OnLoginError", "LOGIN ERROR");
+    Log.e("onLoginError", "LOGIN ERROR");
 
     clearInfo();
   }
 
   @Override
-  public void OnLoggedOut() {
+  public void onLoggedOut() {
     SharedPreferencesModule.get().setAccessToken("");
     SharedPreferencesModule.get().setRefreshTOken("");
 
@@ -171,9 +173,9 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void OnLogoutError() {
+  public void onLogoutError() {
     Toast.makeText(getApplicationContext(), "LOGOUT ERROR", Toast.LENGTH_SHORT).show();
-    Log.e("OnLogoutError", "LOGOUT ERROR");
+    Log.e("onLogoutError", "LOGOUT ERROR");
 
     clearInfo();
   }
@@ -192,7 +194,7 @@ public class MainActivity extends AppCompatActivity
   @Override
   public void OnTokenRefreshError() {
     Toast.makeText(getApplicationContext(), "LOGOUT ERROR", Toast.LENGTH_SHORT).show();
-    Log.e("OnLogoutError", "LOGOUT ERROR");
+    Log.e("onLogoutError", "LOGOUT ERROR");
 
     clearInfo();
   }

@@ -16,9 +16,28 @@
 
 package com.github.koston.keycloaktoken;
 
-public interface KeycloakLoginListener {
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
-  void onLoggedIn(KeycloakToken token);
+public class DisposableContainer {
 
-  void onLoginError();
+  private final CompositeDisposable compositeDisposable;
+
+  public DisposableContainer() {
+    compositeDisposable = new CompositeDisposable();
+  }
+
+  public void onDestroy() {
+    disposeAll();
+  }
+
+  private void disposeAll() {
+    if (!compositeDisposable.isDisposed()) {
+      compositeDisposable.clear();
+    }
+  }
+
+  protected void addSubscription(Disposable subscription) {
+    compositeDisposable.add(subscription);
+  }
 }

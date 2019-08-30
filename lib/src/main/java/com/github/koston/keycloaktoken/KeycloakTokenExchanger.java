@@ -22,8 +22,6 @@ import android.net.Uri;
 import com.google.gson.Gson;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import java.util.Calendar;
@@ -33,15 +31,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class KeycloakTokenExchanger {
-
-  private CompositeDisposable compositeDisposable;
+public class KeycloakTokenExchanger extends DisposableContainer {
 
   private OkHttpClient okHttpClient;
   private KeycloakLoginListener loginListener;
   private KeycloakLogoutListener logoutListener;
 
-  private Config config;
+  private final Config config;
 
   public KeycloakTokenExchanger(
       OkHttpClient client,
@@ -52,23 +48,12 @@ public class KeycloakTokenExchanger {
     this.loginListener = loginListener;
     this.logoutListener = logoutListener;
     okHttpClient = client;
-    compositeDisposable = new CompositeDisposable();
   }
 
-  private void addSubscription(Disposable subscription) {
-    compositeDisposable.add(subscription);
-  }
-
-  private void disposeAll() {
-    if (!compositeDisposable.isDisposed()) {
-      compositeDisposable.clear();
-    }
-  }
-
+  @Override
   public void onDestroy() {
+    super.onDestroy();
     okHttpClient = null;
-    disposeAll();
-    compositeDisposable = null;
     loginListener = null;
     logoutListener = null;
   }
@@ -160,20 +145,20 @@ public class KeycloakTokenExchanger {
                         token.setTokenExpirationDate(expirationDate);
                         token.setRefreshTokenExpirationDate(refreshExpirationDate);
 
-                        loginListener.OnLoggedIn(token);
+                        loginListener.onLoggedIn(token);
                       }
 
                       @Override
                       public void onError(Throwable e) {
                         e.printStackTrace();
-                        loginListener.OnLoginError();
+                        loginListener.onLoginError();
                       }
                     }));
       } else {
-        loginListener.OnLoginError();
+        loginListener.onLoginError();
       }
     } else {
-      loginListener.OnLoginError();
+      loginListener.onLoginError();
     }
   }
 
@@ -185,7 +170,7 @@ public class KeycloakTokenExchanger {
                   @Override
                   public void onSuccess(Response response) {
                     if (response != null) {
-                      logoutListener.OnLoggedOut();
+                      logoutListener.onLoggedOut();
                     } else {
                       onError(new NullPointerException());
                     }
@@ -194,7 +179,7 @@ public class KeycloakTokenExchanger {
                   @Override
                   public void onError(Throwable e) {
                     e.printStackTrace();
-                    logoutListener.OnLogoutError();
+                    logoutListener.onLogoutError();
                   }
                 }));
   }
