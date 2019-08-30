@@ -145,20 +145,29 @@ public class KeycloakTokenExchanger extends DisposableContainer {
                         token.setTokenExpirationDate(expirationDate);
                         token.setRefreshTokenExpirationDate(refreshExpirationDate);
 
-                        loginListener.onLoggedIn(token);
+                        if (loginListener != null) {
+                          loginListener.onLoggedIn(token);
+                        }
                       }
 
                       @Override
                       public void onError(Throwable e) {
                         e.printStackTrace();
-                        loginListener.onLoginError();
+                        if (loginListener != null) {
+                          loginListener.onLoginError();
+                        }
                       }
                     }));
       } else {
-        loginListener.onLoginError();
+        if (loginListener != null) {
+          loginListener.onLoginError();
+        }
       }
     } else {
-      loginListener.onLoginError();
+
+      if (loginListener != null) {
+        loginListener.onLoginError();
+      }
     }
   }
 
@@ -170,7 +179,9 @@ public class KeycloakTokenExchanger extends DisposableContainer {
                   @Override
                   public void onSuccess(Response response) {
                     if (response != null) {
-                      logoutListener.onLoggedOut();
+                      if (logoutListener != null) {
+                        logoutListener.onLoggedOut();
+                      }
                     } else {
                       onError(new NullPointerException());
                     }
@@ -179,7 +190,9 @@ public class KeycloakTokenExchanger extends DisposableContainer {
                   @Override
                   public void onError(Throwable e) {
                     e.printStackTrace();
-                    logoutListener.onLogoutError();
+                    if (logoutListener != null) {
+                      logoutListener.onLogoutError();
+                    }
                   }
                 }));
   }
