@@ -4,14 +4,14 @@ buildscript {
             targetSdk   : 29,
             minSdk      : 17,
             buildTools  : '29.0.2',
-            gradlePlugin: '3.5.0'
+            gradlePlugin: '3.5.2'
     ]
     ext.versions = [
-            appcompat: '1.1.0-rc01',
+            appcompat: '1.1.0',
             migbase64: '2.2',
-            gson     : '2.8.5',
-            okHttp   : '3.12.3',
-            rxJava   : '2.2.11',
+            gson     : '2.8.6',
+            okHttp   : '3.12.6',
+            rxJava   : '2.2.14',
             rxAndroid: '2.1.1',
     ]
     ext.deps = [
@@ -30,7 +30,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath "com.android.tools.build:gradle:${buildConfig.gradlePlugin}"
     }
 }
 

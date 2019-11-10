@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity
 
   @SuppressLint("SetTextI18n")
   @Override
-  public void OnTokenRefreshed(KeycloakToken token) {
+  public void onTokenRefreshed(KeycloakToken token) {
     SharedPreferencesModule.get().setAccessToken(token.getAccessToken());
     SharedPreferencesModule.get().setRefreshTOken(token.getRefreshToken());
 
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void OnTokenRefreshError() {
+  public void onTokenRefreshError() {
     Toast.makeText(getApplicationContext(), "LOGOUT ERROR", Toast.LENGTH_SHORT).show();
     Log.e("onLogoutError", "LOGOUT ERROR");
 

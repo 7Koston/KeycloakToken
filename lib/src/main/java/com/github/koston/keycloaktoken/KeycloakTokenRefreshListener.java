@@ -18,7 +18,7 @@ package com.github.koston.keycloaktoken;
 
 public interface KeycloakTokenRefreshListener {
 
-  void OnTokenRefreshed(KeycloakToken token);
+  void onTokenRefreshed(KeycloakToken token);
 
-  void OnTokenRefreshError();
+  void onTokenRefreshError();
 }

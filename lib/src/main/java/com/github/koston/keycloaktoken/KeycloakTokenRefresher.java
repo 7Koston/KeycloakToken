@@ -102,7 +102,7 @@ public class KeycloakTokenRefresher extends DisposableContainer {
                     token.setRefreshTokenExpirationDate(refreshExpirationDate);
 
                     if (tokenRefreshListener != null) {
-                      tokenRefreshListener.OnTokenRefreshed(token);
+                      tokenRefreshListener.onTokenRefreshed(token);
                     }
                   }
 
@@ -110,7 +110,7 @@ public class KeycloakTokenRefresher extends DisposableContainer {
                   public void onError(Throwable e) {
                     e.printStackTrace();
                     if (tokenRefreshListener != null) {
-                      tokenRefreshListener.OnTokenRefreshError();
+                      tokenRefreshListener.onTokenRefreshError();
                     }
                   }
                 }));
