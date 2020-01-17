@@ -4,14 +4,14 @@ buildscript {
             targetSdk   : 29,
             minSdk      : 17,
             buildTools  : '29.0.2',
-            gradlePlugin: '3.5.2'
+            gradlePlugin: '3.5.3'
     ]
     ext.versions = [
             appcompat: '1.1.0',
             migbase64: '2.2',
             gson     : '2.8.6',
-            okHttp   : '3.12.6',
-            rxJava   : '2.2.14',
+            okHttp   : '3.12.8',
+            rxJava   : '2.2.17',
             rxAndroid: '2.1.1',
     ]
     ext.deps = [

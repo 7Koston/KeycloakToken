@@ -20,7 +20,6 @@ import java.util.Arrays;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 public class OkHttpModule {
 
@@ -48,10 +47,6 @@ public class OkHttpModule {
                   return chain.proceed(request);
                 })
             .hostnameVerifier((hostname, session) -> true);
-
-    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-    builder.addNetworkInterceptor(logging);
 
     apolloHttpClient = builder.build();
   }

@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
     tvRefreshDates = findViewById(R.id.tvRefreshDates);
     tvAccessDates = findViewById(R.id.tvAccessDates);
 
-    bLogin.setOnClickListener(view -> tokenExchanger.openBrowserForLogin(getApplicationContext()));
+    bLogin.setOnClickListener(view -> tokenExchanger.openBrowserForLogin(this));
     bRefresh.setOnClickListener(
         view -> tokenRefresher.refreshAccessToken(SharedPreferencesModule.get().getRefreshToken()));
     bLogout.setOnClickListener(
