@@ -19,11 +19,12 @@ package com.github.koston.keycloaktoken;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import com.google.gson.Gson;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.util.Calendar;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -33,11 +34,10 @@ import okhttp3.ResponseBody;
 
 public class KeycloakTokenExchanger extends DisposableContainer {
 
+  private final Config config;
   private OkHttpClient okHttpClient;
   private KeycloakLoginListener loginListener;
   private KeycloakLogoutListener logoutListener;
-
-  private final Config config;
 
   public KeycloakTokenExchanger(
       OkHttpClient client,
@@ -56,51 +56,6 @@ public class KeycloakTokenExchanger extends DisposableContainer {
     okHttpClient = null;
     loginListener = null;
     logoutListener = null;
-  }
-
-  private Single<KeycloakToken> grantNewAccessToken(String code) {
-    return Single.fromCallable(
-        () -> {
-          ResponseBody body =
-              okHttpClient
-                  .newCall(
-                      new Request.Builder()
-                          .url(config.getBaseUrl() + "/token")
-                          .post(
-                              new FormBody.Builder()
-                                  .add("code", code)
-                                  .add("client_id", config.getClientId())
-                                  .add("redirect_uri", config.getRedirectUri())
-                                  .add("grant_type", "authorization_code")
-                                  .build())
-                          .build())
-                  .execute()
-                  .body();
-          if (body != null) {
-            return new Gson().fromJson(body.string(), KeycloakToken.class);
-          }
-          return null;
-        })
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread());
-  }
-
-  private Single<Response> doLogout(String refreshToken) {
-    return Single.fromCallable(
-        () ->
-            okHttpClient
-                .newCall(
-                    new Request.Builder()
-                        .url(config.getBaseUrl() + "/logout")
-                        .post(
-                            new FormBody.Builder()
-                                .add("client_id", config.getClientId())
-                                .add("refresh_token", refreshToken)
-                                .build())
-                        .build())
-                .execute())
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread());
   }
 
   public void openBrowserForLogin(Context context) {
@@ -171,6 +126,36 @@ public class KeycloakTokenExchanger extends DisposableContainer {
     }
   }
 
+  private Single<KeycloakToken> grantNewAccessToken(String code) {
+    return Single.fromCallable(
+        () -> {
+          ResponseBody body =
+              okHttpClient
+                  .newCall(
+                      new Request.Builder()
+                          .url(config.getBaseUrl() + "/token")
+                          .post(
+                              new FormBody.Builder()
+                                  .add("code", code)
+                                  .add("client_id", config.getClientId())
+                                  .add("redirect_uri", config.getRedirectUri())
+                                  .add("grant_type", "authorization_code")
+                                  .build())
+                          .build())
+                  .execute()
+                  .body();
+          if (body != null) {
+            String body2 = body.string();
+            Log.e("BODY", body2);
+            KeycloakToken gson = new Gson().fromJson(body2, KeycloakToken.class);
+            return gson;
+          }
+          return null;
+        })
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread());
+  }
+
   public void logout(String refreshToken) {
     addSubscription(
         doLogout(refreshToken)
@@ -195,5 +180,23 @@ public class KeycloakTokenExchanger extends DisposableContainer {
                     }
                   }
                 }));
+  }
+
+  private Single<Response> doLogout(String refreshToken) {
+    return Single.fromCallable(
+        () ->
+            okHttpClient
+                .newCall(
+                    new Request.Builder()
+                        .url(config.getBaseUrl() + "/logout")
+                        .post(
+                            new FormBody.Builder()
+                                .add("client_id", config.getClientId())
+                                .add("refresh_token", refreshToken)
+                                .build())
+                        .build())
+                .execute())
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread());
   }
 }

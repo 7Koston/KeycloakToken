@@ -17,10 +17,10 @@
 package com.github.koston.keycloaktoken;
 
 import com.google.gson.Gson;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.util.Calendar;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -29,10 +29,9 @@ import okhttp3.ResponseBody;
 
 public class KeycloakTokenRefresher extends DisposableContainer {
 
+  private final Config config;
   private OkHttpClient okHttpClient;
   private KeycloakTokenRefreshListener tokenRefreshListener;
-
-  private final Config config;
 
   public KeycloakTokenRefresher(
       OkHttpClient client, Config config, KeycloakTokenRefreshListener refreshListener) {
@@ -46,32 +45,6 @@ public class KeycloakTokenRefresher extends DisposableContainer {
     super.onDestroy();
     okHttpClient = null;
     tokenRefreshListener = null;
-  }
-
-  private Single<KeycloakToken> doRefreshAccessToken(String refreshToken) {
-    return Single.fromCallable(
-        () -> {
-          ResponseBody body =
-              okHttpClient
-                  .newCall(
-                      new Request.Builder()
-                          .url(config.getBaseUrl() + "/token")
-                          .post(
-                              new FormBody.Builder()
-                                  .add("refresh_token", refreshToken)
-                                  .add("client_id", config.getClientId())
-                                  .add("grant_type", "refresh_token")
-                                  .build())
-                          .build())
-                  .execute()
-                  .body();
-          if (body != null) {
-            return new Gson().fromJson(body.string(), KeycloakToken.class);
-          }
-          return null;
-        })
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread());
   }
 
   public void refreshAccessToken(String refreshToken) {
@@ -114,5 +87,31 @@ public class KeycloakTokenRefresher extends DisposableContainer {
                     }
                   }
                 }));
+  }
+
+  private Single<KeycloakToken> doRefreshAccessToken(String refreshToken) {
+    return Single.fromCallable(
+        () -> {
+          ResponseBody body =
+              okHttpClient
+                  .newCall(
+                      new Request.Builder()
+                          .url(config.getBaseUrl() + "/token")
+                          .post(
+                              new FormBody.Builder()
+                                  .add("refresh_token", refreshToken)
+                                  .add("client_id", config.getClientId())
+                                  .add("grant_type", "refresh_token")
+                                  .build())
+                          .build())
+                  .execute()
+                  .body();
+          if (body != null) {
+            return new Gson().fromJson(body.string(), KeycloakToken.class);
+          }
+          return null;
+        })
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread());
   }
 }

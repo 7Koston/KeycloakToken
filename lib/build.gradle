@@ -12,8 +12,9 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
+        consumerProguardFiles 'consumer-rules.pro'
     }
 }
 

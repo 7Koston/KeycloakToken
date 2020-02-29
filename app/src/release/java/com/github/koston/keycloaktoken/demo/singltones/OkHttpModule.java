@@ -23,15 +23,15 @@ import okhttp3.Request;
 
 public class OkHttpModule {
 
-  private static OkHttpClient apolloHttpClient;
+  private static OkHttpClient httpClient;
 
   public static void initialize() {
-    if (apolloHttpClient == null) {
-      buildApolloHttpClient();
+    if (httpClient == null) {
+      buildHttpClient();
     }
   }
 
-  private static void buildApolloHttpClient() {
+  private static void buildHttpClient() {
     OkHttpClient.Builder builder =
         new OkHttpClient.Builder()
             .protocols(Arrays.asList(Protocol.HTTP_2, Protocol.HTTP_1_1))
@@ -48,10 +48,10 @@ public class OkHttpModule {
                 })
             .hostnameVerifier((hostname, session) -> true);
 
-    apolloHttpClient = builder.build();
+    httpClient = builder.build();
   }
 
-  public static OkHttpClient getApolloHttpClient() {
-    return apolloHttpClient;
+  public static OkHttpClient getHttpClient() {
+    return httpClient;
   }
 }

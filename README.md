@@ -7,7 +7,7 @@ Based on [this](https://github.com/maslick/keycloak-android-native) solution. Re
 
 Library dependencies:
 * [OkHttp3](https://github.com/square/okhttp/tree/master/okhttp/src/main/java/okhttp3)
-* [RxJava & RxAndroid](https://github.com/ReactiveX/RxJava)
+* [RxJava3 & RxAndroid](https://github.com/ReactiveX/RxJava)
 * [Gson](https://github.com/google/gson)
 
 ### Including in project
@@ -24,7 +24,7 @@ allprojects {
 Add the dependency:
 ```gradle
 dependencies {
-  implementation 'com.github.7Koston:KeycloakToken:1.0.3'
+  implementation 'com.github.7Koston:KeycloakToken:1.0.4'
 }
 ```
 

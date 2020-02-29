@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity
             "https://auth.novel.tl/auth/realms/site/protocol/openid-connect/auth",
             "app://android.novel.tl");
 
-    tokenRefresher = new KeycloakTokenRefresher(OkHttpModule.getApolloHttpClient(), config, this);
+    tokenRefresher = new KeycloakTokenRefresher(OkHttpModule.getHttpClient(), config, this);
 
     tokenExchanger =
-        new KeycloakTokenExchanger(OkHttpModule.getApolloHttpClient(), config, this, this);
+        new KeycloakTokenExchanger(OkHttpModule.getHttpClient(), config, this, this);
 
     initViews();
   }
@@ -78,23 +78,6 @@ public class MainActivity extends AppCompatActivity
     tokenRefresher.onDestroy();
     tokenExchanger = null;
     tokenRefresher = null;
-  }
-
-  @Override
-  protected void onNewIntent(Intent intent) {
-    super.onNewIntent(intent);
-    String data;
-    {
-      if (intent != null) {
-        data = intent.getDataString();
-        tokenExchanger.exchangeCodeForToken(intent.getData());
-        if (data != null) {
-          Log.d("INTENT", data);
-        } else {
-          Log.e("INTENT", "DATA IS NULL");
-        }
-      }
-    }
   }
 
   private void initViews() {
@@ -118,29 +101,21 @@ public class MainActivity extends AppCompatActivity
     tvToken.setText(SharedPreferencesModule.get().getAccessToken());
   }
 
-  private void showInfo(KeycloakToken token) {
-    String access = token.getAccessToken();
-    Helper helper = new Helper();
-    Principal principal = helper.parseJwtToken(access);
-
-    tvToken.setText(access);
-    tvUserId.setText(principal.getUserId());
-    tvEmail.setText(principal.getEmail());
-    tvName.setText(principal.getName());
-    tvRoles.setText(principal.getRoles());
-    tvRefreshDates.setText(helper.formatDate(token.getTokenExpirationDate()));
-    tvAccessDates.setText(helper.formatDate(token.getRefreshTokenExpirationDate()));
-  }
-
-  private void clearInfo() {
-    String empty = "";
-    tvToken.setText(empty);
-    tvUserId.setText(empty);
-    tvEmail.setText(empty);
-    tvName.setText(empty);
-    tvRoles.setText(empty);
-    tvRefreshDates.setText(empty);
-    tvAccessDates.setText(empty);
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    String data;
+    {
+      if (intent != null) {
+        data = intent.getDataString();
+        tokenExchanger.exchangeCodeForToken(intent.getData());
+        if (data != null) {
+          Log.d("INTENT", data);
+        } else {
+          Log.e("INTENT", "DATA IS NULL");
+        }
+      }
+    }
   }
 
   @SuppressLint("SetTextI18n")
@@ -154,12 +129,38 @@ public class MainActivity extends AppCompatActivity
     showInfo(token);
   }
 
+  private void showInfo(KeycloakToken token) {
+    String access = token.getAccessToken();
+    Helper helper = new Helper();
+    Principal principal = helper.parseJwtToken(access);
+
+    tvToken.setText("TOKEN: " + access);
+    tvUserId.setText("USER ID: " + principal.getUserId());
+    tvEmail.setText("EMAIL: " + principal.getEmail());
+    tvName.setText("NAME: " + principal.getName());
+    tvRoles.setText("ROLES: " + principal.getRoles());
+    tvRefreshDates.setText("REFRESH DATE: " + helper.formatDate(token.getTokenExpirationDate()));
+    tvAccessDates.setText(
+        "ACCESS DATE: " + helper.formatDate(token.getRefreshTokenExpirationDate()));
+  }
+
   @Override
   public void onLoginError() {
     Toast.makeText(getApplicationContext(), "LOGIN ERROR", Toast.LENGTH_SHORT).show();
     Log.e("onLoginError", "LOGIN ERROR");
 
     clearInfo();
+  }
+
+  private void clearInfo() {
+    String empty = "";
+    tvToken.setText(empty);
+    tvUserId.setText(empty);
+    tvEmail.setText(empty);
+    tvName.setText(empty);
+    tvRoles.setText(empty);
+    tvRefreshDates.setText(empty);
+    tvAccessDates.setText(empty);
   }
 
   @Override

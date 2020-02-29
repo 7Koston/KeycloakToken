@@ -16,7 +16,7 @@
 
 package com.github.koston.keycloaktoken;
 
-import io.reactivex.annotations.NonNull;
+import io.reactivex.rxjava3.annotations.NonNull;
 
 public final class Config {
 

@@ -3,16 +3,16 @@ buildscript {
             compileSdk  : 29,
             targetSdk   : 29,
             minSdk      : 17,
-            buildTools  : '29.0.2',
-            gradlePlugin: '3.5.3'
+            buildTools  : '29.0.3',
+            gradlePlugin: '4.0.0-beta01'
     ]
     ext.versions = [
             appcompat: '1.1.0',
             migbase64: '2.2',
             gson     : '2.8.6',
-            okHttp   : '3.12.8',
-            rxJava   : '2.2.17',
-            rxAndroid: '2.1.1',
+            okHttp   : '3.12.10',
+            rxJava   : '3.0.0',
+            rxAndroid: '3.0.0',
     ]
     ext.deps = [
 
@@ -20,8 +20,8 @@ buildscript {
             'migbase64': "com.brsanthu:migbase64:${versions.migbase64}",
             'gson'     : "com.google.code.gson:gson:${versions.gson}",
             'okHttp'   : "com.squareup.okhttp3:okhttp:${versions.okHttp}",
-            'rxJava'   : "io.reactivex.rxjava2:rxjava:${versions.rxJava}",
-            'rxAndroid': "io.reactivex.rxjava2:rxandroid:${versions.rxAndroid}"
+            'rxJava'   : "io.reactivex.rxjava3:rxjava:${versions.rxJava}",
+            'rxAndroid': "io.reactivex.rxjava3:rxandroid:${versions.rxAndroid}"
     ]
 
     repositories {

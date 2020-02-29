@@ -48,7 +48,6 @@ public class SharedPreferencesModule {
     return mPreferences.getString("access_token", "");
   }
 
-
   public void setAccessToken(String token) {
     mPreferences.edit().putString("access_token", token).apply();
   }
@@ -57,4 +56,3 @@ public class SharedPreferencesModule {
     mPreferences.edit().putString("refresh_token", token).apply();
   }
 }
-
