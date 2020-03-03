@@ -101,8 +101,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         view -> presenter.refreshAccessToken(SharedPreferencesModule.get().getRefreshToken()));
     bLogout.setOnClickListener(
         view -> presenter.logout(SharedPreferencesModule.get().getRefreshToken()));
-
-    tvAccessToken.setText(SharedPreferencesModule.get().getAccessToken());
   }
 
   @Override

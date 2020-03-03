@@ -9,7 +9,7 @@ import com.github.koston.keycloaktoken.demo.utils.Principal;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.migcomponents.migbase64.Base64;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 public class MainModel implements Parcelable {
@@ -76,7 +76,7 @@ public class MainModel implements Parcelable {
     String[] base64 = jwtToken.split("\\.");
     String base64EncodedBody = base64[1];
 
-    String body = new String(Base64.decodeFast(base64EncodedBody), StandardCharsets.UTF_8);
+    String body = new String(Base64.decodeFast(base64EncodedBody), Charset.forName("UTF-8"));
     JsonObject jsonBody = new Gson().fromJson(body, JsonObject.class);
 
     String userId = jsonBody.get("sub").getAsString();
@@ -105,14 +105,24 @@ public class MainModel implements Parcelable {
   private MainModel(Parcel in) {
     int _expiresIn = in.readInt();
     if (_expiresIn == 0) expiresIn = null;
+    else expiresIn = _expiresIn;
+
     int _refreshExpiresIn = in.readInt();
     if (_refreshExpiresIn == 0) refreshExpiresIn = null;
+    else refreshExpiresIn = _refreshExpiresIn;
+
     int _notBeforePolicy = in.readInt();
     if (_notBeforePolicy == 0) notBeforePolicy = null;
+    else notBeforePolicy = _notBeforePolicy;
+
     long _tokenExpirationDate = in.readLong();
     if (_tokenExpirationDate == 0) tokenExpirationDate = null;
+    else tokenExpirationDate = new Date(_tokenExpirationDate);
+
     long _refreshTokenExpirationDate = in.readLong();
-    if (_refreshTokenExpirationDate == 0) tokenExpirationDate = null;
+    if (_refreshTokenExpirationDate == 0) refreshTokenExpirationDate = null;
+    else refreshTokenExpirationDate = new Date(_refreshTokenExpirationDate);
+
     accessToken = in.readString();
     refreshToken = in.readString();
     tokenType = in.readString();
@@ -123,11 +133,6 @@ public class MainModel implements Parcelable {
     name = in.readString();
     surname = in.readString();
     roles = in.readString();
-  }
-
-  @Override
-  public int describeContents() {
-    return 0;
   }
 
   @Override
@@ -147,6 +152,11 @@ public class MainModel implements Parcelable {
     dest.writeString(name);
     dest.writeString(surname);
     dest.writeString(roles);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
   }
 
   @Nullable

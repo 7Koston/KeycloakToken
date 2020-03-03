@@ -35,7 +35,7 @@ new Config(
   "://DOMAIN/auth/realms/REALM_TYPE/protocol/openid-connect", // base url
   "://DOMAIN/auth/realms/REALM_TYPE/protocol/openid-connect/auth", // authentication url
   "CLIENT_ID", // from Keycloak console
-  "REDIRECT URL"); // from Keycloak console, with your protocol
+  "REDIRECT_URL"); // from Keycloak console, with your protocol
 ```
 Then initialize `KeycloakTokenAPI` with your OkHttp client and use as your wish.
 You can also take a look at example in repository. There an simple MVP application with RxJava3 in a simple approach.

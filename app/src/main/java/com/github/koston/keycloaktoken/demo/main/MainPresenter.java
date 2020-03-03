@@ -44,7 +44,7 @@ public class MainPresenter extends BasicPresenter {
   }
 
   public void onSaveInstanceState(Bundle outState) {
-    if (model != null) outState.putParcelable("model", model);
+    if (model != null) outState.putParcelable("BUNDLE_MAIN_MODEL", model);
   }
 
   public void exchangeCodeForToken(Uri intentData) {
