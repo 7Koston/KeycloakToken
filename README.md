@@ -7,8 +7,8 @@ Based on [this](https://github.com/maslick/keycloak-android-native) solution. Re
 
 Library dependencies:
 * [OkHttp3](https://github.com/square/okhttp/tree/master/okhttp/src/main/java/okhttp3)
-* [RxJava3 & RxAndroid](https://github.com/ReactiveX/RxJava)
 * [Gson](https://github.com/google/gson)
+* AndroidX Annotations
 
 ### Including in project
 
@@ -24,9 +24,21 @@ allprojects {
 Add the dependency:
 ```gradle
 dependencies {
-  implementation 'com.github.7Koston:KeycloakToken:1.0.4'
+  implementation 'com.github.7Koston:KeycloakToken:1.0.5'
 }
 ```
+
+## Usage
+```java
+new Config(
+  "https", // protocol
+  "://DOMAIN/auth/realms/REALM_TYPE/protocol/openid-connect", // base url
+  "://DOMAIN/auth/realms/REALM_TYPE/protocol/openid-connect/auth", // authentication url
+  "CLIENT_ID", // from Keycloak console
+  "REDIRECT URL"); // from Keycloak console, with your protocol
+```
+Then initialize `KeycloakTokenAPI` with your OkHttp client and use as your wish.
+You can also take a look at example in repository. There an simple MVP application with RxJava3 in a simple approach.
 
 ## Thanks to
 

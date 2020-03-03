@@ -15,7 +15,7 @@
     android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning">
     <activity
-      android:name=".activities.MainActivity"
+      android:name=".main.MainActivity"
       android:launchMode="singleTask">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />

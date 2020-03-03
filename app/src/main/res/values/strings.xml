@@ -1,3 +1,23 @@
 <resources>
   <string name="app_name">Keycloak Token</string>
+
+  <string name="b_login">LOGIN</string>
+  <string name="b_logout">LOGOUT</string>
+  <string name="b_refresh">REFRESH</string>
+
+  <string name="user_id">USER ID: %1$s</string>
+  <string name="user_email">EMAIL: %1$s</string>
+  <string name="user_name">NAME: %1$s</string>
+  <string name="user_surname">SURNAME: %1$s</string>
+  <string name="user_roles">ROLES: %1$s</string>
+  <string name="token_type">TOKEN TYPE: %1$s</string>
+  <string name="token_id">TOKEN ID: %1$s</string>
+  <string name="session_state">SESSION STATE: %1$s</string>
+  <string name="not_before_policy">POLICY: %1$d</string>
+  <string name="expires_in">ACCESS EXPIRES IN: %1$d sec.</string>
+  <string name="refresh_expires_in">REFRESH EXP. IN: %1$d sec.</string>
+  <string name="token_expiration_date">ACCESS TOKEN EXP. DATE: %1$s</string>
+  <string name="refresh_token_expiration_date">REFRESH TOKEN EXP. DATE: %1$s</string>
+  <string name="access_token">ACCESS TOKEN:\n%1$s</string>
+  <string name="refresh_token">REFRESH TOKEN:\n%1$s</string>
 </resources>

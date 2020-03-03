@@ -20,16 +20,11 @@ import androidx.annotation.Nullable;
 
 public final class Principal {
 
-  @Nullable
-  private final String userId;
-  @Nullable
-  private final String email;
-  @Nullable
-  private final String name;
-  @Nullable
-  private final String surname;
-  @Nullable
-  private final String roles;
+  @Nullable private final String userId;
+  @Nullable private final String email;
+  @Nullable private final String name;
+  @Nullable private final String surname;
+  @Nullable private final String roles;
 
   public Principal(
       @Nullable String userId,

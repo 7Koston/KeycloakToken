@@ -16,31 +16,41 @@
 
 package com.github.koston.keycloaktoken;
 
-import io.reactivex.rxjava3.annotations.NonNull;
+import androidx.annotation.NonNull;
 
 public final class Config {
 
-  @NonNull
-  private String clientId;
-
-  @NonNull
-  private String baseUrl;
-
-  @NonNull
-  private String authenticationCodeUrl;
-
-  @NonNull
-  private String redirectUri;
+  @NonNull private String protocol;
+  @NonNull private String clientId;
+  @NonNull private String baseUrl;
+  @NonNull private String authenticationCodeUrl;
+  @NonNull private String redirectUri;
+  @NonNull private String tokenRequestUrl;
 
   public Config(
-      @NonNull String clientId,
+      @NonNull String protocol,
       @NonNull String baseUrl,
       @NonNull String authenticationCodeUrl,
+      @NonNull String clientId,
       @NonNull String redirectUri) {
+    this.protocol = protocol;
+    this.baseUrl = protocol + baseUrl;
+    this.authenticationCodeUrl = protocol + authenticationCodeUrl;
     this.clientId = clientId;
-    this.baseUrl = baseUrl;
-    this.authenticationCodeUrl = authenticationCodeUrl;
     this.redirectUri = redirectUri;
+    this.tokenRequestUrl =
+        protocol
+            + authenticationCodeUrl
+            + "?"
+            + "client_id="
+            + clientId
+            + "&redirect_uri="
+            + redirectUri
+            + "&response_type=code";
+  }
+
+  private void buildTokenRequestUrl() {
+    ;
   }
 
   @NonNull
@@ -77,5 +87,23 @@ public final class Config {
 
   public void setRedirectUri(@NonNull String redirectUri) {
     this.redirectUri = redirectUri;
+  }
+
+  @NonNull
+  public String getProtocol() {
+    return protocol;
+  }
+
+  public void setProtocol(@NonNull String protocol) {
+    this.protocol = protocol;
+  }
+
+  @NonNull
+  public String getTokenRequestUrl() {
+    return tokenRequestUrl;
+  }
+
+  public void setTokenRequestUrl(@NonNull String tokenRequestUrl) {
+    this.tokenRequestUrl = tokenRequestUrl;
   }
 }

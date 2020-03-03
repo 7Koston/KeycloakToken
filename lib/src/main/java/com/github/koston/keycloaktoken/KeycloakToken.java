@@ -17,7 +17,7 @@
 package com.github.koston.keycloaktoken;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.Calendar;
+import java.util.Date;
 
 public final class KeycloakToken {
 
@@ -46,10 +46,10 @@ public final class KeycloakToken {
   private String sessionState;
 
   @SerializedName("token_expiration_date")
-  private Calendar tokenExpirationDate;
+  private Date tokenExpirationDate;
 
   @SerializedName("refresh_expiration_date")
-  private Calendar refreshTokenExpirationDate;
+  private Date refreshTokenExpirationDate;
 
   public KeycloakToken(
       String accessToken,
@@ -60,8 +60,8 @@ public final class KeycloakToken {
       String idToken,
       Integer notBeforePolicy,
       String sessionState,
-      Calendar tokenExpirationDate,
-      Calendar refreshTokenExpirationDate) {
+      Date tokenExpirationDate,
+      Date refreshTokenExpirationDate) {
     this.accessToken = accessToken;
     this.expiresIn = expiresIn;
     this.refreshExpiresIn = refreshExpiresIn;
@@ -138,19 +138,19 @@ public final class KeycloakToken {
     this.sessionState = var1;
   }
 
-  public final Calendar getTokenExpirationDate() {
+  public final Date getTokenExpirationDate() {
     return this.tokenExpirationDate;
   }
 
-  public final void setTokenExpirationDate(Calendar var1) {
+  public final void setTokenExpirationDate(Date var1) {
     this.tokenExpirationDate = var1;
   }
 
-  public final Calendar getRefreshTokenExpirationDate() {
+  public final Date getRefreshTokenExpirationDate() {
     return this.refreshTokenExpirationDate;
   }
 
-  public final void setRefreshTokenExpirationDate(Calendar var1) {
+  public final void setRefreshTokenExpirationDate(Date var1) {
     this.refreshTokenExpirationDate = var1;
   }
 }

@@ -8,6 +8,7 @@ buildscript {
     ]
     ext.versions = [
             appcompat: '1.1.0',
+            annotations: '1.1.0',
             migbase64: '2.2',
             gson     : '2.8.6',
             okHttp   : '3.12.10',
@@ -16,6 +17,7 @@ buildscript {
     ]
     ext.deps = [
 
+            'annotations': "androidx.annotation:annotation:${versions.annotations}",
             'appcompat': "androidx.appcompat:appcompat:${versions.appcompat}",
             'migbase64': "com.brsanthu:migbase64:${versions.migbase64}",
             'gson'     : "com.google.code.gson:gson:${versions.gson}",
