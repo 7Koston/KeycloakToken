@@ -24,7 +24,7 @@ allprojects {
 Add the dependency:
 ```gradle
 dependencies {
-  implementation 'com.github.7Koston:KeycloakToken:1.0.5'
+  implementation 'com.github.7Koston:KeycloakToken:1.0.6'
 }
 ```
 

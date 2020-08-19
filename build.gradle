@@ -1,18 +1,18 @@
 buildscript {
     ext.buildConfig = [
-            compileSdk  : 29,
-            targetSdk   : 29,
+            compileSdk  : 30,
+            targetSdk   : 30,
             minSdk      : 17,
-            buildTools  : '29.0.3',
-            gradlePlugin: '4.0.0-beta01'
+            buildTools  : '30.0.2',
+            gradlePlugin: '4.0.1'
     ]
     ext.versions = [
-            appcompat: '1.1.0',
+            appcompat: '1.2.0',
             annotations: '1.1.0',
             migbase64: '2.2',
             gson     : '2.8.6',
-            okHttp   : '3.12.10',
-            rxJava   : '3.0.0',
+            okHttp   : '3.12.12',
+            rxJava   : '3.0.5',
             rxAndroid: '3.0.0',
     ]
     ext.deps = [

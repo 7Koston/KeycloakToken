@@ -14,8 +14,8 @@ android {
         applicationId "com.github.koston.keycloaktoken.demo"
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode 6
-        versionName "1.0.5"
+        versionCode 7
+        versionName "1.0.6"
         multiDexEnabled = true
     }
 
