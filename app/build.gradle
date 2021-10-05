@@ -2,9 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileOptions {
-        coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     compileSdkVersion buildConfig.compileSdk
@@ -14,8 +13,8 @@ android {
         applicationId "com.github.koston.keycloaktoken.demo"
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode 7
-        versionName "1.0.6"
+        versionCode buildConfig.versionCode
+        versionName buildConfig.versionName
         multiDexEnabled = true
     }
 
@@ -38,13 +37,10 @@ android {
 dependencies {
     //MultiDex
     implementation 'androidx.multidex:multidex:2.0.1'
-    //Desugaring
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.4'
 
     implementation project(':lib')
     implementation deps.appcompat
     implementation deps.okHttp
-    implementation deps.migbase64
     implementation deps.gson
     implementation deps.rxJava
     implementation deps.rxAndroid

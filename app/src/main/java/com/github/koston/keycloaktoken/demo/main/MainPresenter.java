@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import com.github.koston.keycloaktoken.Config;
 import com.github.koston.keycloaktoken.KeycloakToken;
 import com.github.koston.keycloaktoken.KeycloakTokenAPI;
@@ -65,13 +66,8 @@ public class MainPresenter extends BasicPresenter {
             .subscribeWith(
                 new DisposableSingleObserver<KeycloakToken>() {
                   @Override
-                  public void onSuccess(KeycloakToken token) {
-                    if (token == null) {
-                      onError(new NullPointerException("KeycloakToken is NULL"));
-                      return;
-                    }
-
-                    Date expirationDate = new Date();
+                  public void onSuccess(@NonNull KeycloakToken token) {
+                      Date expirationDate = new Date();
                     Date refreshExpirationDate = new Date();
                     Integer tokenExpiresIn = token.getExpiresIn();
                     Integer refreshExpiresIn = token.getRefreshExpiresIn();
@@ -94,7 +90,7 @@ public class MainPresenter extends BasicPresenter {
                   }
 
                   @Override
-                  public void onError(Throwable e) {
+                  public void onError(@NonNull Throwable e) {
                     e.printStackTrace();
                     view.onKeycloakTokenGainingError();
                   }
@@ -112,8 +108,8 @@ public class MainPresenter extends BasicPresenter {
             .subscribeWith(
                 new DisposableSingleObserver<Boolean>() {
                   @Override
-                  public void onSuccess(Boolean response) {
-                    if (response != null && response) {
+                  public void onSuccess(@NonNull Boolean response) {
+                    if (response) {
                       view.onKeycloakLoggedOut();
                     } else {
                       view.onKeycloakTokenLoggingOutError();
@@ -121,7 +117,7 @@ public class MainPresenter extends BasicPresenter {
                   }
 
                   @Override
-                  public void onError(Throwable e) {
+                  public void onError(@NonNull Throwable e) {
                     e.printStackTrace();
                     view.onKeycloakTokenLoggingOutError();
                   }
@@ -135,12 +131,7 @@ public class MainPresenter extends BasicPresenter {
             .subscribeWith(
                 new DisposableSingleObserver<KeycloakToken>() {
                   @Override
-                  public void onSuccess(KeycloakToken token) {
-                    if (token == null) {
-                      onError(new NullPointerException("KeycloakToken is NULL"));
-                      return;
-                    }
-
+                  public void onSuccess(@NonNull KeycloakToken token) {
                     Date expirationDate = new Date();
                     Date refreshExpirationDate = new Date();
                     Integer tokenExpiresIn = token.getExpiresIn();
@@ -164,7 +155,7 @@ public class MainPresenter extends BasicPresenter {
                   }
 
                   @Override
-                  public void onError(Throwable e) {
+                  public void onError(@NonNull Throwable e) {
                     e.printStackTrace();
                     view.onKeycloakTokenRefreshingError();
                   }
